@@ -1,21 +1,21 @@
 package com.savchuk.dao;
 
-import java.io.Serializable;
-
 import java.lang.reflect.ParameterizedType;
+import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
-public abstract class AbstractDao<PK extends Serializable, T> {
+public abstract class AbstractDao<T> {
 	
 	private final Class<T> persistentClass;
 	
 	@SuppressWarnings("unchecked")
 	public AbstractDao(){
-		this.persistentClass =(Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[1];
+		this.persistentClass =(Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 	}
 	
 	@Autowired
@@ -26,12 +26,20 @@ public abstract class AbstractDao<PK extends Serializable, T> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public T getByKey(PK key) {
+	public T getById(Integer key) {
 		return (T) getSession().get(persistentClass, key);
 	}
 
 	public void persist(T entity) {
 		getSession().persist(entity);
+	}
+	
+	public void merge(T entity) {
+		getSession().merge(entity);
+	}
+	
+	public void update(T entity) {
+		getSession().update(entity);
 	}
 
 	public void delete(T entity) {
@@ -40,6 +48,12 @@ public abstract class AbstractDao<PK extends Serializable, T> {
 	
 	protected Criteria createEntityCriteria(){
 		return getSession().createCriteria(persistentClass);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<T> findAll() {
+		Criteria criteria = createEntityCriteria();
+		return (List<T>) criteria.setMaxResults(20).list();
 	}
 
 }

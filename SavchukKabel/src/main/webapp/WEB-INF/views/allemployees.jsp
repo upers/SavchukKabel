@@ -10,17 +10,14 @@
 		<tr>
 			<td>NAME</td><td>Joining Date</td><td>Salary</td><td>SSN</td><td></td>
 		</tr>
-		<c:forEach items="${employees}" var="employee">
+		<c:forEach items="${categories}" var="employee">
 			<tr>
 			<td>${employee.name}</td>
-			<td>${employee.joiningDate}</td>
-			<td>${employee.salary}</td>
-			<td><a href="<c:url value='/edit-${employee.ssn}-employee' />">${employee.ssn}</a></td>
-			<td><a href="<c:url value='/delete-${employee.ssn}-employee' />">delete</a></td>
+			<td>${employee.description}</td>
 			</tr>
 		</c:forEach>
 	</table>
 	<br/>
-	<a href="<c:url value='/new' />">Add New Employee</a>
+	<a href="<c:url value='/new' />">Add New Category</a>
 	</jsp:attribute>
 </mt:tamplate>
