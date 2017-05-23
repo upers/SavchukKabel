@@ -16,124 +16,51 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.savchuk.model.Category;
+import com.savchuk.model.Product;
 import com.savchuk.service.CategoryService;
+import com.savchuk.service.ProductService;
 
 @Controller
 @RequestMapping("/")
 public class AppController {
 
 	@Autowired
-	CategoryService service;
-	
+	CategoryService categService;
+
+	@Autowired
+	ProductService productService;
+
 	@Autowired
 	MessageSource messageSource;
 
-	/*
-	 * This method will list all existing employees.
-	 */
 	@RequestMapping(value = { "/", "/list" }, method = RequestMethod.GET)
 	public String listCategories(ModelMap model) {
-		List<Category> categories = service.findAllMainCategories();
-		for (Category c : categories) {
-			Category parent = c.getParentCategory();
-			List<Category>childs = c.getChildCategories();
-			System.out.println("Current id: " + c.getId());
-			if (parent != null) {
-				System.out.println("Parent id: " + parent.getId());
-			}
-			System.out.println("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
-//			System.out.println(parent + "    " + childs);			
-		}
+		List<Category> categories = categService.findAllMainCategories();
 		model.addAttribute("categories", categories);
-		return "allemployees";
+		return "categories";
 	}
 
-	/*
-	 * This method will provide the medium to add a new employee.
-	 */
-//	@RequestMapping(value = { "/new" }, method = RequestMethod.GET)
-//	public String newEmployee(ModelMap model) {
-//		Employee employee = new Employee();
-//		model.addAttribute("employee", employee);
-//		model.addAttribute("edit", false);
-//		return "registration";
-//	}
+	@RequestMapping(value = { "/category/{categId}" }, method = RequestMethod.GET)
+	public String listProductsByCategoryId(ModelMap model, @PathVariable Integer categId) {
+		Category category = categService.findByIdEager(categId);
+		List<Category> childCategories = category.getChildCategories();
 
-	/*
-	 * This method will be called on form submission, handling POST request for
-	 * saving employee in database. It also validates the user input
-	 */
-//	@RequestMapping(value = { "/new" }, method = RequestMethod.POST)
-//	public String saveEmployee(@Valid Employee employee, BindingResult result,
-//			ModelMap model) {
-//
-//		if (result.hasErrors()) {
-//			return "registration";
-//		}
-//
-//		/*
-//		 * Preferred way to achieve uniqueness of field [ssn] should be implementing custom @Unique annotation 
-//		 * and applying it on field [ssn] of Model class [Employee].
-//		 * 
-//		 * Below mentioned peace of code [if block] is to demonstrate that you can fill custom errors outside the validation
-//		 * framework as well while still using internationalized messages.
-//		 */
-//		if(!service.isEmployeeSsnUnique(employee.getId(), employee.getSsn())){
-//			FieldError ssnError =new FieldError("employee","ssn",messageSource.getMessage("non.unique.ssn", new String[]{employee.getSsn()}, Locale.getDefault()));
-//		    result.addError(ssnError);
-//			return "registration";
-//		}
-//		
-//		service.saveCategory(employee);
-//
-//		model.addAttribute("success", "Employee " + employee.getName() + " registered successfully");
-//		return "success";
-//	}
+		if (!childCategories.isEmpty()) {
+			model.addAttribute("categories", childCategories);
+			return "categories";
+		} else {
+			model.addAttribute("category", category);
+			model.addAttribute("products", category.getProducts());
+			return "products";
+		}
+	}
 
-
-	/*
-	 * This method will provide the medium to update an existing employee.
-	 */
-//	@RequestMapping(value = { "/edit-{ssn}-employee" }, method = RequestMethod.GET)
-//	public String editEmployee(@PathVariable String ssn, ModelMap model) {
-//		Employee employee = service.findEmployeeBySsn(ssn);
-//		model.addAttribute("employee", employee);
-//		model.addAttribute("edit", true);
-//		return "registration";
-//	}
-	
-	/*
-	 * This method will be called on form submission, handling POST request for
-	 * updating employee in database. It also validates the user input
-	 */
-//	@RequestMapping(value = { "/edit-{ssn}-employee" }, method = RequestMethod.POST)
-//	public String updateEmployee(@Valid Employee employee, BindingResult result,
-//			ModelMap model, @PathVariable String ssn) {
-//
-//		if (result.hasErrors()) {
-//			return "registration";
-//		}
-//
-//		if(!service.isEmployeeSsnUnique(employee.getId(), employee.getSsn())){
-//			FieldError ssnError =new FieldError("employee","ssn",messageSource.getMessage("non.unique.ssn", new String[]{employee.getSsn()}, Locale.getDefault()));
-//		    result.addError(ssnError);
-//			return "registration";
-//		}
-//
-//		service.updateEmployee(employee);
-//
-//		model.addAttribute("success", "Employee " + employee.getName()	+ " updated successfully");
-//		return "success";
-//	}
-
-	
-	/*
-	 * This method will delete an employee by it's SSN value.
-	 */
-//	@RequestMapping(value = { "/delete-{ssn}-employee" }, method = RequestMethod.GET)
-//	public String deleteEmployee(@PathVariable String ssn) {
-//		service.deleteEmployeeBySsn(ssn);
-//		return "redirect:/list";
-//	}
+	@RequestMapping(value = { "/product/{prodId}" }, method = RequestMethod.GET)
+	public String product(ModelMap model, @PathVariable Integer prodId) {
+		Product product = productService.findAndInitForView(prodId);
+		model.addAttribute("product", product);
+		
+		return "product";
+	}
 
 }

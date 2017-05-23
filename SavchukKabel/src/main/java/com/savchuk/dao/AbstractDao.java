@@ -26,8 +26,8 @@ public abstract class AbstractDao<T> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public T getById(Integer key) {
-		return (T) getSession().get(persistentClass, key);
+	public T findById(Integer id) {
+		return (T) getSession().get(persistentClass, id);
 	}
 
 	public void persist(T entity) {
@@ -44,6 +44,10 @@ public abstract class AbstractDao<T> {
 
 	public void delete(T entity) {
 		getSession().delete(entity);
+	}
+	
+	public void evict(T entity) {
+		getSession().evict(entity);
 	}
 	
 	protected Criteria createEntityCriteria(){

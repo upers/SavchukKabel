@@ -1,8 +1,5 @@
 package com.savchuk.model;
 
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,19 +8,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
 
 @Entity
-@Table(name = "categories")
-public class Category {
-
+@Table(name="products")
+public class Product {
+	
 	@Id
-	@Column(name = "id", nullable = false, insertable=false, updatable=false)
+	@Column(name = "id", nullable=false, insertable=false, updatable=false)
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 
@@ -32,6 +26,12 @@ public class Category {
 
 	@Column(name = "meta_title")
 	private String metatTitle;
+	
+	@Column(name = "code")
+	private String code;
+	
+	@Column(name = "article")
+	private String article;
 
 	@Column(name = "meta_description")
 	private String metaDescription;
@@ -54,30 +54,19 @@ public class Category {
 	@Column(name = "current_load")
 	private String currentLoad;
 
-	@ManyToOne(optional = true)
-	@JoinColumn(name = "parent_id", nullable = true)
-	@NotFound(action = NotFoundAction.IGNORE)
-	private Category parentCategory;
-
-	@OneToMany(mappedBy="parentCategory")
-	private List<Category> childCategories;
-
-	@OneToMany(mappedBy="category")
-	private List<Product> products;
+	@ManyToOne
+	@JoinColumn(name="category_id", insertable = false, updatable = false, nullable = false)
+	private Category category;
 
 	@OneToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "unit_id")
 	private Unit unit;
 
-	public Category() {
+	public Product() {
 	}
 
 	public int getId() {
 		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public String getMetatTitle() {
@@ -136,20 +125,12 @@ public class Category {
 		this.currentLoad = currentLoad;
 	}
 
-	public Category getParentCategory() {
-		return parentCategory;
+	public Category getCategory() {
+		return category;
 	}
 
-	public void setParentCategory(Category parentCategory) {
-		this.parentCategory = parentCategory;
-	}
-
-	public List<Category> getChildCategories() {
-		return childCategories;
-	}
-
-	public void setChildCategories(List<Category> childCategories) {
-		this.childCategories = childCategories;
+	public void setCategory(Category parentCategory) {
+		this.category = parentCategory;
 	}
 
 	public Unit getUnit() {
@@ -176,16 +157,23 @@ public class Category {
 		this.name = name;
 	}
 
-	public List<Product> getProducts() {
-		return products;
+	public String getCode() {
+		return code;
 	}
 
-	public void setProducts(List<Product> products) {
-		this.products = products;
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public String getArticle() {
+		return article;
+	}
+
+	public void setArticle(String article) {
+		this.article = article;
 	}
 
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
 }

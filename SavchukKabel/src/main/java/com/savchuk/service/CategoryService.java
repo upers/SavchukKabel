@@ -17,7 +17,15 @@ public class CategoryService {
 	private CategoryDao dao;
 	
 	public Category findById(int id) {
-		return dao.getById(id);
+		return dao.findById(id);
+	}
+	
+	public Category findByIdWithProducts(int id) {
+		return dao.findByIdWithProducts(id);
+	}
+	
+	public Category findByIdEager(int id) {
+		return dao.findByIdEager(id);
 	}
 	
 	public List<Category> findAllCategories() {
