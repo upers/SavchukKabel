@@ -22,7 +22,7 @@ import com.savchuk.service.ProductService;
 
 @Controller
 @RequestMapping("/")
-public class AppController {
+public class MainController {
 
 	@Autowired
 	CategoryService categService;
@@ -57,10 +57,10 @@ public class AppController {
 
 	@RequestMapping(value = { "/product/{prodId}" }, method = RequestMethod.GET)
 	public String product(ModelMap model, @PathVariable Integer prodId) {
-		Product product = productService.findAndInitForView(prodId);
+		Product product = productService.findAndInit(prodId);
 		model.addAttribute("product", product);
 		
 		return "product";
 	}
-
+	
 }

@@ -8,7 +8,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="<c:url value="/css/bootstrap.min.css" />">
 <link rel="stylesheet" href="<c:url value="/css/main-styles.css" />">
-<script src="<c:url value="/js/bootstrap.js" />"></script>
+<script src="<c:url value="/js/jquery-3.2.1.min.js" />"></script>
+<script src="<c:url value="/js/tether.min.js" />"></script>
+<script src="<c:url value="/js/bootstrap.min.js" />"></script>
 <title>${title}</title>
 </head>
 <body>

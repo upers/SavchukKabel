@@ -45,7 +45,7 @@ public class ProductService {
 		return prodDAO.findByIdEager(id);
 	}
 	
-	public Product findAndInitForView(int id) {
+	public Product findAndInit(int id) {
 		Product product = prodDAO.findById(id);
 		Category category = product.getCategory();
 		Hibernate.initialize(category);
