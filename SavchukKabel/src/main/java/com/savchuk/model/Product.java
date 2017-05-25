@@ -64,6 +64,10 @@ public class Product {
 
 	public Product() {
 	}
+	
+	public Product(int id) {
+		this.id = id;
+	}
 
 	public int getId() {
 		return id;
@@ -175,5 +179,10 @@ public class Product {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	@Override
+	public String toString() {
+		return "Product [id=" + id + ", name=" + name + ", code=" + code + ", nameTranslit=" + nameTranslit + "]";
 	}
 }

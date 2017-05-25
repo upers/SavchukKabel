@@ -7,7 +7,6 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 
 public abstract class AbstractDao<T> {
 	
@@ -59,5 +58,5 @@ public abstract class AbstractDao<T> {
 		Criteria criteria = createEntityCriteria();
 		return (List<T>) criteria.setMaxResults(20).list();
 	}
-
+	
 }

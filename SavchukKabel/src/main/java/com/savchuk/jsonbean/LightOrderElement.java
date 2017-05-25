@@ -1,6 +1,6 @@
 package com.savchuk.jsonbean;
 
-public class ProductFormAddition {
+public class LightOrderElement {
 	private int id;
 
 	private int amount;
