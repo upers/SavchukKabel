@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.beust.jcommander.internal.Lists;
 import com.savchuk.dao.CategoryDao;
 import com.savchuk.dao.ProductDao;
 import com.savchuk.model.Category;

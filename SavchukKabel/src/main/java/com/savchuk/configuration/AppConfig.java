@@ -1,6 +1,5 @@
 package com.savchuk.configuration;
 
-
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -15,7 +14,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
-import com.savchuk.intercepter.AllRequestIntercepter;
+import com.savchuk.intercepter.RequestPrinterIntercepter;
 
 @Configuration
 @EnableWebMvc
@@ -37,7 +36,7 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
 		configurer.enable();
 	}
-
+	
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/css/**").addResourceLocations("/resoureces/css/");
@@ -47,7 +46,7 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 	
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-	    registry.addInterceptor(new AllRequestIntercepter());
+	    registry.addInterceptor(new RequestPrinterIntercepter());
 	} 
 
 	@Bean

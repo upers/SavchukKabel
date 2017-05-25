@@ -13,8 +13,8 @@
             <input type="text" id="id" name="id">
         </div>
         <div>
-            <label class="title">Name</label>
-            <input type="text" id="name" name="name">
+            <label class="title">amount: </label>
+            <input type="text" id="amount" name="amount">
         </div>
         <div>
             <input type="submit" id="submitButton" name="submitButton"
@@ -29,21 +29,27 @@
 			/* stop form from submitting normally */
 			event.preventDefault();
 
-			var id = $('#id').val();
-			var name = $('#name').val();
 			/* get the action attribute from the <form action=""> element */
 			var $form = $(this), url = $form.attr('action');
 
-			/* Send the data using post with element id name and name2*/
-			var posting = $.post(url, {
-				id : $('#id').val(),
-				name : $('#name').val()
-			});
-
-			/* Alerts the results */
-			posting.done(function(data) {
-				alert('success');
-			});
+			var order = {
+				'id': $('#id').val(),
+				'amount': $('#amount').val(),
+				
+			}
+			  $.ajax({
+			        'url' : url,
+			        'type' : 'POST',
+			        'data': JSON.stringify(order),
+			        'dataType': "json",
+			        'contentType': "application/json",
+			        'success' :	function(data) {
+						console.log(data.message);
+					},
+					'error' : function(data) {
+						console.log(data.error);	
+					}
+			    });
 		});
 	</script>
 	</jsp:attribute>
