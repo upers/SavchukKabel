@@ -1,13 +1,13 @@
 package com.savchuk.spring.components;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
@@ -15,11 +15,12 @@ import org.springframework.stereotype.Component;
 import com.savchuk.jsonbean.OrderElement;
 import com.savchuk.model.Product;
 
+@SuppressWarnings("serial")
 @Component("WebSessionWrapper")
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class Cart {
+public class Cart implements Serializable {
 
-	private static final Log log = LogFactory.getLog(Cart.class);
+	private static final Logger log = Logger.getLogger(Cart.class);
 
 	private Map<Integer, OrderElement> orderElements;
 
@@ -75,6 +76,11 @@ public class Cart {
 	 */
 	public Set<Integer> getElementsKeys() {
 		return orderElements.keySet();
+	}
+	
+	public void clear() {
+		orderElements.clear();
+		log.info("Cart was cleared");
 	}
 	
 }

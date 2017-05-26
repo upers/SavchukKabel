@@ -5,8 +5,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeansException;
@@ -15,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class PropertiesCopier extends BeanUtils {
 	
-	private static final Log log = LogFactory.getLog(PropertiesCopier.class);
+	private static final Logger log = Logger.getLogger(PropertiesCopier.class);
 	
 	/**
 	 * Copy the property values of the given source bean into the given target

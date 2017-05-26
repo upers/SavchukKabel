@@ -1,10 +1,10 @@
 package com.savchuk.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ import com.savchuk.util.PropertiesCopier;
 @Service("productService")
 @Transactional
 public class ProductService {
-	private static final Log log = LogFactory.getLog(ProductService.class);
+	private static final Logger log = Logger.getLogger(ProductService.class);
 	
 	@Autowired
 	private ProductDao prodDAO;
@@ -66,6 +66,9 @@ public class ProductService {
 	}
 	
 	public List<Product> findAndInit(Set<Integer> ids) {
+		if (ids.isEmpty())
+			return new ArrayList<Product>();
+		
 		List<Product> products = prodDAO.findByIds(ids);
 		for (Product p : products) {
 			Category category = p.getCategory();
